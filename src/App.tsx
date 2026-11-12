@@ -45,6 +45,7 @@ import {
   BrushRounded,
 } from '@mui/icons-material'
 import { motion, type Variants } from 'framer-motion'
+import avatarImg from './assets/Image.jpeg'
 
 // ============================================================================
 // 1. DỮ LIỆU CÁ NHÂN (/* THAY INFO CỦA BẠN VÀO ĐÂY */)
@@ -56,7 +57,7 @@ const PERSONAL_INFO = {
   role: 'Senior Frontend Developer',
   tagline: 'Xây dựng trải nghiệm web tốc độ cao, tinh tế và lấy người dùng làm trung tâm.',
   bio: 'Tôi là một lập trình viên Frontend với hơn 3 năm kinh nghiệm chuyên sâu về hệ sinh thái React, Next.js và TypeScript. Đam mê kiến trúc giao diện mở rộng (Scalable UI), tối ưu hiệu năng và tạo ra những hiệu ứng tương tác mượt mà.',
-  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80',
+  avatar: avatarImg,
   email: 'contact@caxanhla.dev',
   github: 'https://github.com',
   linkedin: 'https://linkedin.com',
@@ -326,7 +327,10 @@ const HeroSection: React.FC = () => {
                 <Box
                   component="span"
                   sx={{
-                    background: 'linear-gradient(90deg, #6366f1 0%, #a855f7 100%)',
+                    background: (theme) =>
+                      theme.palette.mode === 'dark'
+                        ? 'linear-gradient(90deg, #F59E0B 0%, #FDE68A 50%, #E2E8F0 100%)'
+                        : 'linear-gradient(90deg, #B45309 0%, #D97706 55%, #475569 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                   }}
@@ -364,7 +368,7 @@ const HeroSection: React.FC = () => {
                     px: 3.5,
                     borderRadius: 2.5,
                     fontWeight: 600,
-                    boxShadow: '0 10px 25px -5px rgba(99, 102, 241, 0.5)',
+                    boxShadow: (theme) => `0 10px 25px -5px ${alpha(theme.palette.primary.main, 0.45)}`,
                   }}
                 >
                   Xem dự án
@@ -410,7 +414,8 @@ const HeroSection: React.FC = () => {
                   width: { xs: 240, md: 320 },
                   height: { xs: 240, md: 320 },
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, rgba(99,102,241,0.38), rgba(168,85,247,0.38))',
+                  background:
+                    'linear-gradient(135deg, rgba(212, 175, 55, 0.42), rgba(226, 232, 240, 0.28))',
                   filter: 'blur(42px)',
                   zIndex: 0,
                 }}
@@ -418,12 +423,21 @@ const HeroSection: React.FC = () => {
               <Avatar
                 src={PERSONAL_INFO.avatar}
                 alt={PERSONAL_INFO.name}
+                slotProps={{
+                  img: {
+                    style: {
+                      objectFit: 'cover',
+                      objectPosition: 'center 18%',
+                    },
+                  },
+                }}
                 sx={{
                   width: { xs: 220, md: 300 },
                   height: { xs: 220, md: 300 },
                   border: '4px solid',
                   borderColor: 'primary.main',
-                  boxShadow: 12,
+                  boxShadow: (theme) =>
+                    `0 20px 45px -12px ${alpha(theme.palette.primary.main, 0.4)}`,
                   zIndex: 1,
                 }}
               />
@@ -523,7 +537,7 @@ const SkillsSection: React.FC = () => {
                             transition: 'all 0.2s ease',
                             '&:hover': {
                               bgcolor: 'primary.main',
-                              color: '#fff',
+                              color: 'primary.contrastText',
                               borderColor: 'primary.main',
                               transform: 'scale(1.05)',
                             },
@@ -799,7 +813,7 @@ const ContactSection: React.FC = () => {
                       py: 1.5,
                       borderRadius: 2.5,
                       fontWeight: 600,
-                      boxShadow: '0 10px 25px -5px rgba(99, 102, 241, 0.45)',
+                      boxShadow: (theme) => `0 10px 25px -5px ${alpha(theme.palette.primary.main, 0.45)}`,
                     }}
                   >
                     Gửi tin nhắn
@@ -855,20 +869,29 @@ export default function App() {
     setMode((prev) => (prev === 'dark' ? 'light' : 'dark'))
   }
 
+  // Bảng màu phong thủy Mệnh Kim (Bản mệnh Kim: Bạch Kim / Bạc / Trắng & Tương sinh Thổ sinh Kim: Hoàng Kim / Hổ Phách)
   const theme = useMemo(
     () =>
       createTheme({
         palette: {
           mode,
           primary: {
-            main: '#6366f1', // Indigo
+            main: mode === 'dark' ? '#E5C158' : '#B48608', // Hoàng Kim / Champagne Gold (Thổ sinh Kim & Bản mệnh Kim)
+            light: '#FDE68A',
+            dark: '#926B05',
+            contrastText: mode === 'dark' ? '#0C0E12' : '#FFFFFF',
           },
           secondary: {
-            main: '#a855f7', // Deep Purple
+            main: mode === 'dark' ? '#CBD5E1' : '#64748B', // Bạch Kim / Platinum Silver (Bản mệnh Kim)
+            light: '#F1F5F9',
+            dark: '#334155',
+          },
+          info: {
+            main: mode === 'dark' ? '#F59E0B' : '#D97706', // Hổ phách ánh đồng (Thổ tương sinh)
           },
           background: {
-            default: mode === 'dark' ? '#0b0f19' : '#f8fafc',
-            paper: mode === 'dark' ? '#111827' : '#ffffff',
+            default: mode === 'dark' ? '#0C0E12' : '#F8FAFC', // Đen ánh thép (Gunmetal) / Trắng Bạch Kim (Pearl White)
+            paper: mode === 'dark' ? '#141820' : '#FFFFFF', // Xám Titan tối (Dark Titanium) / Trắng tinh khiết
           },
         },
         typography: {

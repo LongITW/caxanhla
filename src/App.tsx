@@ -52,8 +52,6 @@ import {
   RestaurantMenuRounded,
   ReceiptLongRounded,
   BoltRounded,
-  LockRounded,
-  LockOpenRounded,
   VisibilityRounded,
   VisibilityOffRounded,
   CodeRounded,
@@ -76,9 +74,9 @@ import { TiltCard } from './components/TiltCard'
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 // ============================================================================
-// 0. CẤU HÌNH MẬT KHẨU TAB BÍ MẬT (.env -> VITE_SECRET_PASSWORD)
+// 0. CẤU HÌNH MẬT KHẨU (.env -> VITE_SECRET_PASSWORD)
 // ============================================================================
-const SECRET_PASSWORD = import.meta.env.VITE_SECRET_PASSWORD || '123456'
+const SECRET_PASSWORD = import.meta.env.VITE_SECRET_PASSWORD || 'HDBank@2026!'
 const SESSION_UNLOCK_KEY = 'caxanhla_secret_unlocked'
 const SESSION_TAB_KEY = 'caxanhla_active_tab'
 
@@ -467,28 +465,32 @@ const Navbar: React.FC<NavbarProps> = ({
               />
             )}
 
-            {/* Icon Mở khóa / Khóa ngay kế bên nút Dark/Light */}
+            {/* Icon Ly Bia 🍺 ngay kế bên nút Dark/Light */}
             <Tooltip
               title={
                 isUnlocked
                   ? 'Đóng cửa bàn trong (Khóa lại)'
-                  : 'Cổng kiểm tra nồng độ cồn 🍻'
+                  : 'Trạm kiểm tra nồng độ cồn 🍺'
               }
             >
               <IconButton
                 onClick={isUnlocked ? onLockSecret : onSecretIconClick}
                 color={isUnlocked ? 'primary' : 'inherit'}
-                aria-label="Cổng kiểm tra nồng độ cồn"
+                aria-label="Trạm kiểm tra nồng độ cồn"
                 sx={{
                   ml: 1,
+                  width: 36,
+                  height: 36,
                   border: '1px solid',
                   borderColor: isUnlocked ? 'primary.main' : 'divider',
                   bgcolor: (theme) => (isUnlocked ? alpha(theme.palette.primary.main, 0.14) : 'transparent'),
                   transition: 'all 0.2s ease',
-                  '&:hover': { transform: 'scale(1.08)', borderColor: 'primary.main' },
+                  '&:hover': { transform: 'scale(1.1) rotate(-8deg)', borderColor: 'primary.main' },
                 }}
               >
-                {isUnlocked ? <LockOpenRounded fontSize="small" /> : <LockRounded fontSize="small" />}
+                <Box component="span" sx={{ fontSize: '1.1rem', lineHeight: 1 }}>
+                  🍺
+                </Box>
               </IconButton>
             </Tooltip>
 
@@ -515,13 +517,17 @@ const Navbar: React.FC<NavbarProps> = ({
             <IconButton
               onClick={isUnlocked ? onLockSecret : onSecretIconClick}
               color={isUnlocked ? 'primary' : 'inherit'}
-              aria-label="Mở khóa tab bí mật"
+              aria-label="Trạm kiểm tra nồng độ cồn"
               sx={{
+                width: 36,
+                height: 36,
                 border: '1px solid',
                 borderColor: isUnlocked ? 'primary.main' : 'divider',
               }}
             >
-              {isUnlocked ? <LockOpenRounded fontSize="small" /> : <LockRounded fontSize="small" />}
+              <Box component="span" sx={{ fontSize: '1.1rem', lineHeight: 1 }}>
+                🍺
+              </Box>
             </IconButton>
             <IconButton onClick={toggleMode} color="inherit" aria-label="Chuyển đổi giao diện sáng/tối">
               {mode === 'dark' ? <LightModeRounded /> : <DarkModeRounded />}
@@ -575,7 +581,7 @@ const Navbar: React.FC<NavbarProps> = ({
               <Button
                 fullWidth
                 variant="contained"
-                startIcon={isUnlocked ? <LockRounded /> : <LockOpenRounded />}
+                startIcon={<SportsBarRounded />}
                 onClick={() => {
                   setMobileOpen(false)
                   if (isUnlocked) {
@@ -585,7 +591,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   }
                 }}
               >
-                {isUnlocked ? 'Đóng Cửa Bàn Trong' : 'Nhập Pass Đồng Nhậu'}
+                {isUnlocked ? 'Đóng Cửa Bàn Trong' : 'Nhập Pass Đồng Nhậu 🍺'}
               </Button>
             </ListItem>
           </List>
@@ -1697,7 +1703,7 @@ export default function App() {
 
   const handleUnlockSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (passwordInput === SECRET_PASSWORD) {
+    if (passwordInput.trim() === SECRET_PASSWORD.trim()) {
       sessionStorage.setItem(SESSION_UNLOCK_KEY, 'true')
       sessionStorage.setItem(SESSION_TAB_KEY, 'real_cv')
       setIsUnlocked(true)
@@ -1889,8 +1895,8 @@ export default function App() {
             </DialogContent>
             <DialogActions sx={{ p: 2 }}>
               <Button onClick={() => setPasswordDialogOpen(false)}>Thôi xin kiếu</Button>
-              <Button type="submit" variant="contained" startIcon={<LockOpenRounded />} sx={{ fontWeight: 700 }}>
-                1, 2, 3 Vào!
+              <Button type="submit" variant="contained" sx={{ fontWeight: 700 }}>
+                🍺 1, 2, 3 Vào!
               </Button>
             </DialogActions>
           </Box>

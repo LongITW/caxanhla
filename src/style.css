@@ -7,7 +7,8 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Lenis điều khiển scroll — tắt smooth-behavior của trình duyệt để tránh xung đột */
+  scroll-behavior: auto;
 }
 
 * {
@@ -18,4 +19,46 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
+  overflow-x: hidden;
+}
+
+/* Ẩn con trỏ hệ thống trên thiết bị có chuột (đã có CustomCursor thay thế) */
+@media (hover: hover) and (pointer: fine) {
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
+}
+
+/* ---- CSS khuyến nghị chính thức của Lenis ---- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

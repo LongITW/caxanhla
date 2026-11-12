@@ -1,0 +1,40 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-builds/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x] # Bạn có thể chọn phiên bản Node phù hợp với máy của bạn
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    # Cài đặt môi trường Node.js
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+    # Kích hoạt Corepack để dùng Yarn v1/v2/v4 tùy dự án của bạn
+    - name: Enable Corepack
+      run: corepack enable
+
+    # Cài đặt thư viện bằng Yarn
+    - name: Install dependencies (Yarn)
+      run: yarn install
+
+    # Chạy lệnh build (tương ứng với lệnh build Vite của bạn)
+    - name: Run Build
+      run: yarn build

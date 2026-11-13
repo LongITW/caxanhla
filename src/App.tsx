@@ -54,12 +54,6 @@ import {
   BoltRounded,
   VisibilityRounded,
   VisibilityOffRounded,
-  CodeRounded,
-  BrushRounded,
-  StorageRounded,
-  DownloadRounded,
-  TerminalRounded,
-  WorkRounded,
 } from '@mui/icons-material'
 import { motion, type Variants } from 'framer-motion'
 import gsap from 'gsap'
@@ -70,6 +64,7 @@ import { useSmoothScroll } from './hooks/useSmoothScroll'
 import { CustomCursor } from './components/CustomCursor'
 import { Reveal } from './components/Reveal'
 import { TiltCard } from './components/TiltCard'
+import { CmsDashboard } from './components/CmsDashboard'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -78,10 +73,9 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 // ============================================================================
 const SECRET_PASSWORD = import.meta.env.VITE_SECRET_PASSWORD || 'HDBank@2026!'
 const SESSION_UNLOCK_KEY = 'caxanhla_secret_unlocked'
-const SESSION_TAB_KEY = 'caxanhla_active_tab'
 
 // ============================================================================
-// 1A. DỮ LIỆU PUBLIC: HỒ SƠ ĐÔ NHẬU HÀI HƯỚC
+// 1. DỮ LIỆU PUBLIC: HỒ SƠ ĐÔ NHẬU HÀI HƯỚC
 // ============================================================================
 const PERSONAL_INFO = {
   name: 'Nguyễn Khánh Long',
@@ -217,101 +211,11 @@ const PROJECTS: ProjectItem[] = [
   },
 ]
 
-// ============================================================================
-// 1B. DỮ LIỆU PRIVATE (TAB MẬT KHẨU): CV SENIOR FRONTEND DEVELOPER THẬT
-// ============================================================================
-const REAL_CV_INFO = {
-  name: 'Nguyễn Khánh Long',
-  brand: 'Caxanhla',
-  role: 'Senior Frontend Developer',
-  tagline: 'Xây dựng trải nghiệm web tốc độ cao, tinh tế và lấy người dùng làm trung tâm.',
-  bio: 'Tôi là một lập trình viên Frontend với hơn 3 năm kinh nghiệm chuyên sâu về hệ sinh thái React, Next.js và TypeScript. Đam mê kiến trúc giao diện mở rộng (Scalable UI), tối ưu hiệu năng và tạo ra những hiệu ứng tương tác mượt mà với GSAP & Framer Motion.',
-  highlights: [
-    { label: '💼 Kinh nghiệm', value: '3+ Năm Frontend chuyên sâu' },
-    { label: '⚛️ Tech Stack chính', value: 'React, Next.js, TypeScript' },
-    { label: '✨ UI & Motion', value: 'MUI, Tailwind, GSAP, Lenis' },
-    { label: '🚀 Hiệu năng', value: 'Lighthouse 95-100 / Web Vitals' },
-  ],
-}
-
-const REAL_SKILL_CATEGORIES: SkillCategory[] = [
-  {
-    title: 'Frontend Core',
-    icon: <CodeRounded color="primary" />,
-    skills: ['React.js', 'Next.js', 'TypeScript', 'JavaScript (ES6+)', 'HTML5 / CSS3', 'Redux Toolkit / Zustand'],
-  },
-  {
-    title: 'UI & Animation',
-    icon: <BrushRounded color="secondary" />,
-    skills: ['Material UI (MUI)', 'Tailwind CSS', 'GSAP / ScrollTrigger', 'Framer Motion', 'Lenis Smooth Scroll', 'Figma'],
-  },
-  {
-    title: 'Backend & Công cụ',
-    icon: <StorageRounded color="info" />,
-    skills: ['Node.js', 'RESTful APIs', 'GraphQL', 'Git / GitHub', 'Vite', 'Docker / CI-CD'],
-  },
-]
-
-interface RealProjectItem {
-  title: string
-  description: string
-  image: string
-  techStack: string[]
-  githubUrl: string
-  demoUrl: string
-}
-
-const REAL_PROJECTS: RealProjectItem[] = [
-  {
-    title: 'SaaS Analytics Dashboard',
-    description:
-      'Nền tảng quản trị và phân tích dữ liệu thời gian thực cho doanh nghiệp E-commerce với biểu đồ tương tác trực quan, phân quyền RBAC và chế độ Dark Mode.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80',
-    techStack: ['Next.js', 'TypeScript', 'Material UI', 'Recharts'],
-    githubUrl: 'https://github.com/LongITW',
-    demoUrl: 'https://github.com/LongITW',
-  },
-  {
-    title: 'TaskFlow - Quản lý Dự án Agile',
-    description:
-      'Ứng dụng Kanban board hỗ trợ kéo thả mượt mà, cộng tác nhóm theo thời gian thực thông qua WebSockets và hệ thống thông báo thông minh.',
-    image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&auto=format&fit=crop&q=80',
-    techStack: ['React', 'TypeScript', 'GSAP', 'Socket.io'],
-    githubUrl: 'https://github.com/LongITW',
-    demoUrl: 'https://github.com/LongITW',
-  },
-  {
-    title: 'AI Code Assistant Platform',
-    description:
-      'Giao diện web hiện đại tích hợp trợ lý AI cho lập trình viên, tối ưu điểm hiệu năng Lighthouse 100/100 cùng trải nghiệm streaming response mượt mà.',
-    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&auto=format&fit=crop&q=80',
-    techStack: ['React', 'MUI', 'Lenis', 'Vite'],
-    githubUrl: 'https://github.com/LongITW',
-    demoUrl: 'https://github.com/LongITW',
-  },
-  {
-    title: 'FinTrack - Quản lý Tài chính Cá nhân',
-    description:
-      'Ứng dụng theo dõi chi tiêu và lập ngân sách thông minh, hỗ trợ xuất báo cáo tự động và đồng bộ hóa đa thiết bị.',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80',
-    techStack: ['Next.js', 'TypeScript', 'MUI', 'Chart.js'],
-    githubUrl: 'https://github.com/LongITW',
-    demoUrl: 'https://github.com/LongITW',
-  },
-]
-
 const PUBLIC_NAV_ITEMS = [
   { label: 'Hồ sơ nhậu', href: '#about' },
   { label: 'Chỉ số & Đô', href: '#skills' },
   { label: 'Chiến tích', href: '#projects' },
   { label: 'Lên kèo ngay', href: '#contact' },
-]
-
-const REAL_NAV_ITEMS = [
-  { label: 'Giới thiệu', href: '#about' },
-  { label: 'Kỹ năng', href: '#skills' },
-  { label: 'Dự án', href: '#projects' },
-  { label: 'Liên hệ', href: '#contact' },
 ]
 
 // ============================================================================
@@ -332,34 +236,24 @@ const staggerContainer: Variants = {
 }
 
 // ============================================================================
-// 3. CÁC COMPONENTS GIAO DIỆN
+// 3. CÁC COMPONENTS GIAO DIỆN PUBLIC
 // ============================================================================
 
 interface NavbarProps {
   mode: 'dark' | 'light'
   toggleMode: () => void
   onOpenSimulator: () => void
-  isUnlocked: boolean
-  activeTab: 'drinking' | 'real_cv'
   onSecretIconClick: () => void
-  onToggleTab: (tab: 'drinking' | 'real_cv') => void
-  onLockSecret: () => void
 }
 
 const Navbar: React.FC<NavbarProps> = ({
   mode,
   toggleMode,
   onOpenSimulator,
-  isUnlocked,
-  activeTab,
   onSecretIconClick,
-  onToggleTab,
-  onLockSecret,
 }) => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const barRef = useRef<HTMLDivElement>(null)
-
-  const navItems = activeTab === 'real_cv' ? REAL_NAV_ITEMS : PUBLIC_NAV_ITEMS
 
   useGSAP(() => {
     const bar = barRef.current
@@ -411,22 +305,18 @@ const Navbar: React.FC<NavbarProps> = ({
             href="#"
             sx={{ textDecoration: 'none', color: 'text.primary' }}
           >
-            {activeTab === 'real_cv' ? (
-              <TerminalRounded color="primary" fontSize="large" />
-            ) : (
-              <SportsBarRounded color="primary" fontSize="large" />
-            )}
+            <SportsBarRounded color="primary" fontSize="large" />
             <Typography variant="h6" fontWeight={800} letterSpacing="-0.5px">
               {PERSONAL_INFO.brand}
               <Box component="span" sx={{ color: 'primary.main' }}>
-                {activeTab === 'real_cv' ? '.dev' : '.nhậu'}
+                .nhậu
               </Box>
             </Typography>
           </Stack>
 
           {/* Menu trên Desktop */}
           <Stack direction="row" spacing={1} alignItems="center" sx={{ display: { xs: 'none', md: 'flex' } }}>
-            {navItems.map((item) => (
+            {PUBLIC_NAV_ITEMS.map((item) => (
               <Button
                 key={item.label}
                 href={item.href}
@@ -441,49 +331,28 @@ const Navbar: React.FC<NavbarProps> = ({
               </Button>
             ))}
 
-            {activeTab === 'drinking' && (
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<BoltRounded />}
-                onClick={onOpenSimulator}
-                sx={{ borderRadius: 2, fontWeight: 700, ml: 0.5 }}
-              >
-                Test Đô Online
-              </Button>
-            )}
-
-            {/* Nếu đã mở khóa: hiển thị nút chuyển qua lại giữa 2 bàn */}
-            {isUnlocked && (
-              <Chip
-                icon={activeTab === 'real_cv' ? <SportsBarRounded fontSize="small" /> : <WorkRounded fontSize="small" />}
-                label={activeTab === 'real_cv' ? 'Về lại Bàn Nhậu' : 'Qua Bàn Trong'}
-                color="primary"
-                variant={activeTab === 'real_cv' ? 'filled' : 'outlined'}
-                onClick={() => onToggleTab(activeTab === 'real_cv' ? 'drinking' : 'real_cv')}
-                sx={{ fontWeight: 700, cursor: 'pointer', ml: 0.5 }}
-              />
-            )}
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<BoltRounded />}
+              onClick={onOpenSimulator}
+              sx={{ borderRadius: 2, fontWeight: 700, ml: 0.5 }}
+            >
+              Test Đô Online
+            </Button>
 
             {/* Icon Ly Bia 🍺 ngay kế bên nút Dark/Light */}
-            <Tooltip
-              title={
-                isUnlocked
-                  ? 'Đóng cửa bàn trong (Khóa lại)'
-                  : 'Trạm kiểm tra nồng độ cồn 🍺'
-              }
-            >
+            <Tooltip title="Trạm kiểm tra nồng độ cồn 🍺">
               <IconButton
-                onClick={isUnlocked ? onLockSecret : onSecretIconClick}
-                color={isUnlocked ? 'primary' : 'inherit'}
+                onClick={onSecretIconClick}
+                color="inherit"
                 aria-label="Trạm kiểm tra nồng độ cồn"
                 sx={{
                   ml: 1,
                   width: 36,
                   height: 36,
                   border: '1px solid',
-                  borderColor: isUnlocked ? 'primary.main' : 'divider',
-                  bgcolor: (theme) => (isUnlocked ? alpha(theme.palette.primary.main, 0.14) : 'transparent'),
+                  borderColor: 'divider',
                   transition: 'all 0.2s ease',
                   '&:hover': { transform: 'scale(1.1) rotate(-8deg)', borderColor: 'primary.main' },
                 }}
@@ -515,14 +384,14 @@ const Navbar: React.FC<NavbarProps> = ({
           {/* Nút điều khiển trên Mobile */}
           <Stack direction="row" spacing={1} alignItems="center" sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-              onClick={isUnlocked ? onLockSecret : onSecretIconClick}
-              color={isUnlocked ? 'primary' : 'inherit'}
+              onClick={onSecretIconClick}
+              color="inherit"
               aria-label="Trạm kiểm tra nồng độ cồn"
               sx={{
                 width: 36,
                 height: 36,
                 border: '1px solid',
-                borderColor: isUnlocked ? 'primary.main' : 'divider',
+                borderColor: 'divider',
               }}
             >
               <Box component="span" sx={{ fontSize: '1.1rem', lineHeight: 1 }}>
@@ -544,8 +413,7 @@ const Navbar: React.FC<NavbarProps> = ({
         <Box sx={{ width: 260, p: 2 }}>
           <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1, px: 1 }}>
             <Typography fontWeight={800} color="primary">
-              {PERSONAL_INFO.brand}
-              {activeTab === 'real_cv' ? '.dev' : '.nhậu'}
+              {PERSONAL_INFO.brand}.nhậu
             </Typography>
             <IconButton onClick={() => setMobileOpen(false)}>
               <CloseRounded />
@@ -553,29 +421,13 @@ const Navbar: React.FC<NavbarProps> = ({
           </Stack>
           <Divider sx={{ mb: 1 }} />
           <List>
-            {navItems.map((item) => (
+            {PUBLIC_NAV_ITEMS.map((item) => (
               <ListItem key={item.label} disablePadding>
                 <ListItemButton component="a" href={item.href} onClick={() => setMobileOpen(false)}>
                   <ListItemText primary={item.label} primaryTypographyProps={{ fontWeight: 600 }} />
                 </ListItemButton>
               </ListItem>
             ))}
-
-            {isUnlocked && (
-              <ListItem disablePadding sx={{ mt: 1 }}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  startIcon={activeTab === 'real_cv' ? <SportsBarRounded /> : <WorkRounded />}
-                  onClick={() => {
-                    setMobileOpen(false)
-                    onToggleTab(activeTab === 'real_cv' ? 'drinking' : 'real_cv')
-                  }}
-                >
-                  {activeTab === 'real_cv' ? 'Về lại Bàn Nhậu' : 'Qua Bàn Trong'}
-                </Button>
-              </ListItem>
-            )}
 
             <ListItem disablePadding sx={{ mt: 1 }}>
               <Button
@@ -584,14 +436,10 @@ const Navbar: React.FC<NavbarProps> = ({
                 startIcon={<SportsBarRounded />}
                 onClick={() => {
                   setMobileOpen(false)
-                  if (isUnlocked) {
-                    onLockSecret()
-                  } else {
-                    onSecretIconClick()
-                  }
+                  onSecretIconClick()
                 }}
               >
-                {isUnlocked ? 'Đóng Cửa Bàn Trong' : 'Nhập Pass Đồng Nhậu 🍺'}
+                Nhập Pass Đồng Nhậu 🍺
               </Button>
             </ListItem>
           </List>
@@ -1161,508 +1009,7 @@ const ContactSection: React.FC = () => {
 }
 
 // ============================================================================
-// 3B. GIAO DIỆN TAB BÍ MẬT: CV SENIOR FRONTEND DEVELOPER NGHIÊM TÚC
-// ============================================================================
-interface RealPortfolioViewProps {
-  onLockSecret: () => void
-  onSwitchToDrinking: () => void
-}
-
-const RealPortfolioView: React.FC<RealPortfolioViewProps> = () => {
-  const [openSnackbar, setOpenSnackbar] = useState(false)
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setOpenSnackbar(true)
-    e.currentTarget.reset()
-  }
-
-  return (
-    <Box>
-      {/* Hero CV */}
-      <Box id="about" sx={{ pt: { xs: 7, md: 11 }, pb: { xs: 9, md: 14 }, position: 'relative', overflow: 'hidden' }}>
-        <Container maxWidth="lg">
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: '1fr', md: '6.5fr 5.5fr' },
-              gap: { xs: 6, md: 6 },
-              alignItems: 'center',
-            }}
-          >
-            <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
-              <motion.div variants={fadeInUp}>
-                <Chip
-                  label="🚀 Sẵn sàng cho các dự án & cơ hội hợp tác mới"
-                  color="primary"
-                  variant="outlined"
-                  size="small"
-                  sx={{ mb: 2.5, fontWeight: 600, borderRadius: 2, px: 0.75 }}
-                />
-              </motion.div>
-
-              <motion.div variants={fadeInUp}>
-                <Typography
-                  variant="h1"
-                  sx={{
-                    fontWeight: 800,
-                    fontSize: { xs: '2.35rem', sm: '3.1rem', md: '3.5rem' },
-                    lineHeight: 1.15,
-                    letterSpacing: '-1px',
-                    mb: 2,
-                  }}
-                >
-                  Xin chào, tôi là{' '}
-                  <Box
-                    component="span"
-                    sx={{
-                      display: 'inline-block',
-                      background: (theme) =>
-                        theme.palette.mode === 'dark'
-                          ? 'linear-gradient(90deg, #F59E0B 0%, #FDE68A 50%, #E2E8F0 100%)'
-                          : 'linear-gradient(90deg, #B45309 0%, #D97706 55%, #475569 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                    }}
-                  >
-                    {REAL_CV_INFO.name}
-                  </Box>
-                </Typography>
-              </motion.div>
-
-              <motion.div variants={fadeInUp}>
-                <Typography variant="h5" color="text.secondary" fontWeight={600} sx={{ mb: 2 }}>
-                  {REAL_CV_INFO.role}
-                </Typography>
-              </motion.div>
-
-              <motion.div variants={fadeInUp}>
-                <Typography variant="body1" color="text.secondary" sx={{ mb: 3, maxWidth: 600, lineHeight: 1.8 }}>
-                  {REAL_CV_INFO.bio}
-                </Typography>
-              </motion.div>
-
-              <motion.div variants={fadeInUp}>
-                <Box
-                  sx={{
-                    display: 'grid',
-                    gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' },
-                    gap: 1.5,
-                    mb: 4,
-                    maxWidth: 600,
-                  }}
-                >
-                  {REAL_CV_INFO.highlights.map((item) => (
-                    <Box
-                      key={item.label}
-                      sx={{
-                        p: 1.5,
-                        borderRadius: 2.5,
-                        border: '1px solid',
-                        borderColor: 'divider',
-                        bgcolor: (theme) => alpha(theme.palette.primary.main, 0.06),
-                      }}
-                    >
-                      <Typography variant="caption" color="text.secondary" fontWeight={600} display="block">
-                        {item.label}
-                      </Typography>
-                      <Typography variant="body2" fontWeight={700} color="primary.main">
-                        {item.value}
-                      </Typography>
-                    </Box>
-                  ))}
-                </Box>
-              </motion.div>
-
-              <motion.div variants={fadeInUp}>
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                  <Button
-                    component={motion.a}
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.97 }}
-                    variant="contained"
-                    size="large"
-                    href="#projects"
-                    endIcon={<LaunchRounded />}
-                    sx={{
-                      py: 1.5,
-                      px: 3.5,
-                      borderRadius: 2.5,
-                      fontWeight: 700,
-                      boxShadow: (theme) => `0 10px 25px -5px ${alpha(theme.palette.primary.main, 0.45)}`,
-                    }}
-                  >
-                    Xem dự án thực tế
-                  </Button>
-
-                  <Button
-                    component={motion.a}
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.97 }}
-                    variant="outlined"
-                    size="large"
-                    href="#contact"
-                    startIcon={<DownloadRounded />}
-                    sx={{ py: 1.5, px: 3.5, borderRadius: 2.5, fontWeight: 600 }}
-                  >
-                    Tải CV / Liên hệ
-                  </Button>
-                </Stack>
-              </motion.div>
-            </motion.div>
-
-            {/* Cột Avatar */}
-            <Box sx={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  width: { xs: 300, sm: 360, md: 420 },
-                  height: { xs: 300, sm: 360, md: 420 },
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.42), rgba(226, 232, 240, 0.28))',
-                  filter: 'blur(42px)',
-                  zIndex: 0,
-                }}
-              />
-              <Avatar
-                src={PERSONAL_INFO.avatar}
-                alt={REAL_CV_INFO.name}
-                slotProps={{
-                  img: { style: { objectFit: 'contain', transform: 'scale(1.12) translateY(4%)' } },
-                }}
-                sx={{
-                  width: { xs: 280, sm: 340, md: 380 },
-                  height: { xs: 280, sm: 340, md: 380 },
-                  bgcolor: '#ffffff',
-                  border: '4px solid',
-                  borderColor: 'primary.main',
-                  boxShadow: (theme) => `0 20px 45px -12px ${alpha(theme.palette.primary.main, 0.4)}`,
-                  zIndex: 1,
-                }}
-              />
-            </Box>
-          </Box>
-        </Container>
-      </Box>
-
-      {/* Kỹ năng chuyên môn */}
-      <Box id="skills" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
-        <Container maxWidth="lg">
-          <Reveal>
-            <Typography variant="overline" color="primary" fontWeight={700} letterSpacing={1.5} display="block" textAlign="center">
-              NĂNG LỰC CỐT LÕI
-            </Typography>
-            <Typography variant="h3" fontWeight={800} textAlign="center" sx={{ mb: 2, fontSize: { xs: '2rem', md: '2.75rem' } }}>
-              Kỹ Năng &amp; Công Nghệ Chuyên Môn
-            </Typography>
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              textAlign="center"
-              sx={{ maxWidth: 640, mx: 'auto', mb: 6, lineHeight: 1.75 }}
-            >
-              {REAL_CV_INFO.tagline} Dưới đây là các công nghệ và công cụ tôi sử dụng hàng ngày để kiến tạo sản phẩm.
-            </Typography>
-          </Reveal>
-
-          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, gap: 3.5 }}>
-            {REAL_SKILL_CATEGORIES.map((category, i) => (
-              <Reveal key={category.title} delay={i * 0.12}>
-                <TiltCard max={10} scale={1.02}>
-                  <Card
-                    elevation={0}
-                    sx={{
-                      height: '100%',
-                      p: 1,
-                      borderRadius: 4,
-                      border: '1px solid',
-                      borderColor: 'divider',
-                      transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-                      '&:hover': {
-                        borderColor: 'primary.main',
-                        boxShadow: (theme) => `0 14px 30px -10px ${alpha(theme.palette.primary.main, 0.25)}`,
-                      },
-                    }}
-                  >
-                    <CardContent>
-                      <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 3 }}>
-                        <Box
-                          sx={{
-                            p: 1.2,
-                            borderRadius: 2.5,
-                            display: 'flex',
-                            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.12),
-                          }}
-                        >
-                          {category.icon}
-                        </Box>
-                        <Typography variant="h6" fontWeight={700}>
-                          {category.title}
-                        </Typography>
-                      </Stack>
-
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {category.skills.map((skill) => (
-                          <Chip
-                            key={skill}
-                            label={skill}
-                            variant="outlined"
-                            sx={{
-                              fontWeight: 500,
-                              borderRadius: 2,
-                              transition: 'all 0.2s ease',
-                              '&:hover': {
-                                bgcolor: 'primary.main',
-                                color: 'primary.contrastText',
-                                borderColor: 'primary.main',
-                                transform: 'scale(1.05)',
-                              },
-                            }}
-                          />
-                        ))}
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </TiltCard>
-              </Reveal>
-            ))}
-          </Box>
-        </Container>
-      </Box>
-
-      {/* Dự án tiêu biểu */}
-      <Box id="projects" sx={{ py: { xs: 8, md: 12 } }}>
-        <Container maxWidth="lg">
-          <Reveal>
-            <Typography variant="overline" color="primary" fontWeight={700} letterSpacing={1.5} display="block" textAlign="center">
-              PORTFOLIO
-            </Typography>
-            <Typography variant="h3" fontWeight={800} textAlign="center" sx={{ mb: 2, fontSize: { xs: '2rem', md: '2.75rem' } }}>
-              Dự Án Phần Mềm Tiêu Biểu
-            </Typography>
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              textAlign="center"
-              sx={{ maxWidth: 640, mx: 'auto', mb: 6, lineHeight: 1.75 }}
-            >
-              Các dự án thực tế được đầu tư kỹ lưỡng về kiến trúc code, hiệu năng xử lý và trải nghiệm tương tác người dùng.
-            </Typography>
-          </Reveal>
-
-          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' }, gap: 4 }}>
-            {REAL_PROJECTS.map((project, i) => (
-              <Reveal key={project.title} from={i % 2 === 0 ? 'left' : 'right'} delay={(i % 2) * 0.1}>
-                <TiltCard max={9} scale={1.02}>
-                  <Card
-                    elevation={0}
-                    sx={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      borderRadius: 4,
-                      overflow: 'hidden',
-                      border: '1px solid',
-                      borderColor: 'divider',
-                      transition: 'border-color 0.35s ease, box-shadow 0.35s ease',
-                      '&:hover': {
-                        borderColor: 'primary.main',
-                        boxShadow: (theme) => `0 20px 35px -10px ${alpha(theme.palette.primary.main, 0.3)}`,
-                      },
-                    }}
-                  >
-                    <CardMedia component="img" height="220" image={project.image} alt={project.title} sx={{ objectFit: 'cover' }} />
-                    <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                      <Typography variant="h6" fontWeight={700} gutterBottom>
-                        {project.title}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2.5, lineHeight: 1.7 }}>
-                        {project.description}
-                      </Typography>
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8 }}>
-                        {project.techStack.map((tech) => (
-                          <Chip
-                            key={tech}
-                            label={tech}
-                            size="small"
-                            sx={{
-                              fontSize: '0.75rem',
-                              fontWeight: 600,
-                              bgcolor: (theme) => alpha(theme.palette.primary.main, 0.12),
-                              color: 'primary.main',
-                            }}
-                          />
-                        ))}
-                      </Box>
-                    </CardContent>
-                    <CardActions sx={{ px: 3, pb: 3, pt: 0, gap: 1 }}>
-                      <Button
-                        component={motion.a}
-                        whileHover={{ scale: 1.04 }}
-                        whileTap={{ scale: 0.97 }}
-                        size="small"
-                        startIcon={<GitHub />}
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        sx={{ fontWeight: 600 }}
-                      >
-                        GitHub
-                      </Button>
-                      <Button
-                        component={motion.a}
-                        whileHover={{ scale: 1.04 }}
-                        whileTap={{ scale: 0.97 }}
-                        size="small"
-                        variant="contained"
-                        endIcon={<LaunchRounded />}
-                        href={project.demoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        sx={{ fontWeight: 600, borderRadius: 2, ml: 'auto' }}
-                      >
-                        Live Demo
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </TiltCard>
-              </Reveal>
-            ))}
-          </Box>
-        </Container>
-      </Box>
-
-      {/* Liên hệ công việc */}
-      <Box id="contact" sx={{ pt: { xs: 8, md: 12 }, pb: 6, bgcolor: 'background.paper' }}>
-        <Container maxWidth="lg">
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: '1fr', md: '5fr 7fr' },
-              gap: { xs: 5, md: 6 },
-              alignItems: 'center',
-            }}
-          >
-            <Reveal from="left">
-              <Typography variant="overline" color="primary" fontWeight={700} letterSpacing={1.5}>
-                LIÊN HỆ CÔNG VIỆC
-              </Typography>
-              <Typography variant="h3" fontWeight={800} sx={{ mb: 2, fontSize: { xs: '2rem', md: '2.5rem' } }}>
-                Kết Nối Cùng Tôi
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 4, lineHeight: 1.8 }}>
-                Bạn đang tìm kiếm một Senior Frontend Developer đồng hành trong dự án sắp tới hoặc có cơ hội hợp tác cần trao đổi? Hãy để lại lời nhắn nhé!
-              </Typography>
-
-              <Stack spacing={2.5}>
-                <Stack direction="row" spacing={2} alignItems="center">
-                  <IconButton href={`mailto:${PERSONAL_INFO.email}`} color="primary" sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.12) }}>
-                    <EmailRounded />
-                  </IconButton>
-                  <Box>
-                    <Typography variant="caption" color="text.secondary" display="block">
-                      Email trực tiếp
-                    </Typography>
-                    <Typography variant="body2" fontWeight={600}>
-                      {PERSONAL_INFO.email}
-                    </Typography>
-                  </Box>
-                </Stack>
-
-                <Stack direction="row" spacing={1.5} sx={{ pt: 1 }}>
-                  <Button
-                    component={motion.a}
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.97 }}
-                    variant="outlined"
-                    startIcon={<GitHub />}
-                    href={PERSONAL_INFO.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    sx={{ borderRadius: 2, fontWeight: 600 }}
-                  >
-                    GitHub
-                  </Button>
-                  <Button
-                    component={motion.a}
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.97 }}
-                    variant="outlined"
-                    startIcon={<LinkedIn />}
-                    href={PERSONAL_INFO.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    sx={{ borderRadius: 2, fontWeight: 600 }}
-                  >
-                    LinkedIn
-                  </Button>
-                </Stack>
-              </Stack>
-            </Reveal>
-
-            <Reveal from="right" delay={0.15}>
-              <Card component="form" onSubmit={handleSubmit} elevation={0} sx={{ p: { xs: 3, md: 4 }, borderRadius: 4, border: '1px solid', borderColor: 'divider' }}>
-                <Stack spacing={2.5}>
-                  <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2 }}>
-                    <TextField fullWidth required label="Họ và tên" variant="outlined" />
-                    <TextField fullWidth required type="email" label="Địa chỉ Email" variant="outlined" />
-                  </Box>
-                  <TextField fullWidth required label="Tiêu đề công việc / Dự án" variant="outlined" />
-                  <TextField fullWidth required multiline rows={4} label="Nội dung trao đổi..." variant="outlined" />
-                  <Button
-                    component={motion.button}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    type="submit"
-                    variant="contained"
-                    size="large"
-                    endIcon={<SendRounded />}
-                    sx={{
-                      py: 1.5,
-                      borderRadius: 2.5,
-                      fontWeight: 700,
-                      boxShadow: (theme) => `0 10px 25px -5px ${alpha(theme.palette.primary.main, 0.45)}`,
-                    }}
-                  >
-                    Gửi tin nhắn
-                  </Button>
-                </Stack>
-              </Card>
-            </Reveal>
-          </Box>
-
-          <Divider sx={{ my: 6 }} />
-
-          <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems="center" spacing={2}>
-            <Typography variant="body2" color="text.secondary">
-              © {new Date().getFullYear()} {REAL_CV_INFO.name} ({REAL_CV_INFO.brand}). Senior Frontend Developer Portfolio.
-            </Typography>
-            <Stack direction="row" spacing={1}>
-              <IconButton size="small" href={PERSONAL_INFO.github} target="_blank" color="inherit" aria-label="GitHub">
-                <GitHub fontSize="small" />
-              </IconButton>
-              <IconButton size="small" href={PERSONAL_INFO.linkedin} target="_blank" color="inherit" aria-label="LinkedIn">
-                <LinkedIn fontSize="small" />
-              </IconButton>
-              <IconButton size="small" href={`mailto:${PERSONAL_INFO.email}`} color="inherit" aria-label="Email">
-                <EmailRounded fontSize="small" />
-              </IconButton>
-            </Stack>
-          </Stack>
-        </Container>
-
-        <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={() => setOpenSnackbar(false)}>
-          <Alert severity="success" variant="filled" sx={{ width: '100%', fontWeight: 600 }}>
-            Cảm ơn bạn! Tin nhắn công việc đã được gửi thành công.
-          </Alert>
-        </Snackbar>
-      </Box>
-    </Box>
-  )
-}
-
-// ============================================================================
-// 4. MAIN APP & QUẢN LÝ MỞ KHÓA MẬT KHẨU
+// 4. MAIN APP & QUẢN LÝ MỞ KHÓA CMS DASHBOARD
 // ============================================================================
 export default function App() {
   const [mode, setMode] = useState<'dark' | 'light'>('dark')
@@ -1670,14 +1017,9 @@ export default function App() {
   const [simulatorOpen, setSimulatorOpen] = useState(false)
   const [cansCount, setCansCount] = useState(4)
 
-  // State mở khóa Tab Bí Mật lưu trong sessionStorage
+  // State mở khóa lưu trong sessionStorage
   const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
     return sessionStorage.getItem(SESSION_UNLOCK_KEY) === 'true'
-  })
-  const [activeTab, setActiveTab] = useState<'drinking' | 'real_cv'>(() => {
-    const unlocked = sessionStorage.getItem(SESSION_UNLOCK_KEY) === 'true'
-    const savedTab = sessionStorage.getItem(SESSION_TAB_KEY)
-    return unlocked && savedTab === 'real_cv' ? 'real_cv' : 'drinking'
   })
 
   // State cho hộp thoại nhập mật khẩu
@@ -1705,16 +1047,14 @@ export default function App() {
     e.preventDefault()
     if (passwordInput.trim() === SECRET_PASSWORD.trim()) {
       sessionStorage.setItem(SESSION_UNLOCK_KEY, 'true')
-      sessionStorage.setItem(SESSION_TAB_KEY, 'real_cv')
       setIsUnlocked(true)
-      setActiveTab('real_cv')
       setPasswordDialogOpen(false)
       setPasswordInput('')
       setPasswordError('')
       window.scrollTo({ top: 0, behavior: 'smooth' })
       setAuthToast({
         open: true,
-        message: '🍻 Đúng pass đồng nhậu! Mời vào bàn trong lúc còn tỉnh táo!',
+        message: '🍻 Đúng pass đồng nhậu! Chào mừng vào hệ thống!',
         severity: 'success',
       })
     } else {
@@ -1722,21 +1062,13 @@ export default function App() {
     }
   }
 
-  const handleToggleTab = (tab: 'drinking' | 'real_cv') => {
-    setActiveTab(tab)
-    sessionStorage.setItem(SESSION_TAB_KEY, tab)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
   const handleLockSecret = () => {
     sessionStorage.removeItem(SESSION_UNLOCK_KEY)
-    sessionStorage.removeItem(SESSION_TAB_KEY)
     setIsUnlocked(false)
-    setActiveTab('drinking')
     window.scrollTo({ top: 0, behavior: 'smooth' })
     setAuthToast({
       open: true,
-      message: '🔒 Đã đóng cửa bàn trong — Quay lại sảnh nhậu chính!',
+      message: '🔒 Đã khóa phiên làm việc!',
       severity: 'info',
     })
   }
@@ -1818,25 +1150,24 @@ export default function App() {
       <CssBaseline />
       <CustomCursor />
       <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', color: 'text.primary' }}>
-        <Navbar
-          mode={mode}
-          toggleMode={toggleMode}
-          onOpenSimulator={() => setSimulatorOpen(true)}
-          isUnlocked={isUnlocked}
-          activeTab={activeTab}
-          onSecretIconClick={handleOpenPasswordDialog}
-          onToggleTab={handleToggleTab}
-          onLockSecret={handleLockSecret}
-        />
-
-        <main>
-          {isUnlocked && activeTab === 'real_cv' ? (
-            <RealPortfolioView
-              onLockSecret={handleLockSecret}
-              onSwitchToDrinking={() => handleToggleTab('drinking')}
+        {isUnlocked ? (
+          <CmsDashboard
+            avatar={PERSONAL_INFO.avatar}
+            userName={PERSONAL_INFO.name}
+            userEmail={PERSONAL_INFO.email}
+            mode={mode}
+            toggleMode={toggleMode}
+            onLockCms={handleLockSecret}
+          />
+        ) : (
+          <>
+            <Navbar
+              mode={mode}
+              toggleMode={toggleMode}
+              onOpenSimulator={() => setSimulatorOpen(true)}
+              onSecretIconClick={handleOpenPasswordDialog}
             />
-          ) : (
-            <>
+            <main>
               <HeroSection onOpenSimulator={() => setSimulatorOpen(true)} />
               <SkillsSection />
               <ProjectsSection
@@ -1844,9 +1175,9 @@ export default function App() {
                 onOpenSimulator={() => setSimulatorOpen(true)}
               />
               <ContactSection />
-            </>
-          )}
-        </main>
+            </main>
+          </>
+        )}
 
         {/* Dialog Nhập Mật Khẩu */}
         <Dialog
